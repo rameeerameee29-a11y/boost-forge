@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التطبيقات | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33; --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6); --accent:#3b82f6; --accent-2:#00d4ff; }
+        [data-theme="light"] { --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc; --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6); }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0;
+            background-image: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3), transparent 50%), radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.2), transparent 50%), radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.25), transparent 50%); background-size: 600px 600px; }
+        [data-theme="light"] body { background-image: none; }
+        .container { width: 94%; max-width: 1000px; margin: auto; padding-bottom: 40px; }
+        header { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 17px; }
+        .brand img { height: 32px; width: 32px; border-radius: 8px; object-fit: cover; }
+        .back { color: var(--accent-2); text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
+        h1 { font-size: 22px; margin: 8px 0 5px; text-align: center; }
+        .subtitle { text-align: center; opacity: 0.7; font-size: 13px; margin-bottom: 18px; }
+        .search-box { width: 100%; padding: 14px 18px; border-radius: 14px; background: var(--panel); border: 1px solid var(--border); color: var(--text); font-family: 'Cairo', sans-serif; font-size: 14px; margin-bottom: 22px; }
+        .search-box:focus { outline: none; border-color: var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+        @media (min-width:600px) { .grid { grid-template-columns: repeat(4,1fr); } }
+        @media (min-width:850px) { .grid { grid-template-columns: repeat(5,1fr); } }
+        .app-card { background: var(--panel); border-radius: 18px; padding: 14px 10px; text-align: center; text-decoration: none; color: var(--text); border: 1px solid var(--border); transition: 0.25s; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .app-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .app-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 14px; background: var(--panel-2); }
+        .app-name { font-size: 12.5px; font-weight: 700; min-height: 32px; display: flex; align-items: center; justify-content: center; line-height: 1.2; }
+        .app-price { font-size: 11.5px; color: var(--accent-2); font-weight: 700; }
+        .empty-msg { text-align: center; padding: 30px; opacity: 0.6; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back">→ الرئيسية</a>
+            <div class="brand"><img src="/static/logo.png" alt=""> BoostForge</div>
+            <div style="width:90px;"></div>
+        </header>
+
+        <h1>كل التطبيقات</h1>
+        <div class="subtitle">{{ apps|length }} تطبيق متاح • أسعار تنافسية</div>
+
+        <input type="text" class="search-box" id="search" placeholder="ابحث عن تطبيق...">
+
+        <div class="grid" id="grid">
+            {% for a in apps %}
+            <a href="/apps/{{ a.id }}" class="app-card" data-name="{{ a.name|lower }}">
+                <img src="/static/cube_logo.jpg" alt="{{ a.name }}">
+                <div class="app-name">{{ a.name }}</div>
+                <div class="app-price">من {{ '%.2f'|format(a.markup_starts_from) }}$</div>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="empty-msg" id="empty">لا توجد نتائج</div>
+    </div>
+
+    <script>
+        const t = localStorage.getItem('bf_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+
+        const search = document.getElementById('search');
+        const cards = document.querySelectorAll('.app-card');
+        const empty = document.getElementById('empty');
+        search.addEventListener('input', () => {
+            const q = search.value.trim().toLowerCase();
+            let shown = 0;
+            cards.forEach(c => {
+                const match = !q || c.dataset.name.includes(q);
+                c.style.display = match ? '' : 'none';
+                if (match) shown++;
+            });
+            empty.style.display = shown ? 'none' : 'block';
+        });
+    </script>
+</body>
+</html>

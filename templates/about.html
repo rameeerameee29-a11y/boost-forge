@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من نحن | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33; --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6); --accent:#3b82f6; --accent-2:#00d4ff; --whatsapp:#25d366; }
+        [data-theme="light"] { --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc; --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6); }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; text-align: center; padding: 40px 20px; margin: 0;
+            background-image: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3), transparent 50%), radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.2), transparent 50%); background-size: 600px 600px; }
+        [data-theme="light"] body { background-image: none; }
+        .card { background: var(--panel); padding: 36px 30px; border-radius: 22px; border: 1px solid var(--border); max-width: 520px; margin: auto; }
+        .brand-row { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 16px; }
+        .brand-row img { height: 56px; width: 56px; border-radius: 14px; object-fit: cover; }
+        .brand-row .name { font-weight: 900; font-size: 22px; }
+        p { color: var(--muted); line-height: 1.7; font-size: 14px; }
+        .phone { font-size: 22px; color: var(--accent-2); font-weight: 900; margin: 16px 0; display: block; text-decoration: none; }
+        .btn-wa { background: var(--whatsapp); color: white; padding: 13px 26px; border-radius: 14px; text-decoration: none; display: inline-block; font-weight: 800; box-shadow: 0 4px 14px rgba(37,211,102,0.3); }
+        .back { color: var(--muted); text-decoration: none; display: block; margin-top: 18px; font-size: 13px; }
+        .back:hover { color: var(--accent-2); }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="brand-row">
+            <img src="/static/logo.png" alt="BoostForge">
+            <div class="name">BoostForge</div>
+        </div>
+        <p>نحن نوفّر لك أفضل تجربة لشحن الألعاب والخدمات الرقمية في لبنان والوطن العربي. أسعار تنافسية، تسليم سريع، ودعم متواصل.</p>
+        <p style="margin-top:16px;">رقم الدعم الفني المباشر:</p>
+        <a href="tel:+96171484779" class="phone">+961 71 484 779</a>
+        <a href="https://wa.me/96171484779" class="btn-wa">تحدّث معنا واتساب</a>
+        <a href="/" class="back">← العودة للرئيسية</a>
+    </div>
+    <script>
+        const t = localStorage.getItem('bf_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الحسابات | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33; --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6); --accent:#3b82f6; --accent-2:#00d4ff; }
+        [data-theme="light"] { --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc; --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6); }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0;
+            background-image: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3), transparent 50%), radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.2), transparent 50%), radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.25), transparent 50%); background-size: 600px 600px; }
+        [data-theme="light"] body { background-image: none; }
+        .container { width: 94%; max-width: 800px; margin: auto; padding-bottom: 40px; }
+        header { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 17px; }
+        .brand img { height: 32px; width: 32px; border-radius: 8px; object-fit: cover; }
+        .back { color: var(--accent-2); text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
+        h1 { font-size: 22px; margin: 8px 0 18px; text-align: center; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .card-item { background: var(--panel); padding: 24px 16px; border-radius: 20px; text-align: center; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; color: var(--text); transition: 0.25s; }
+        .card-item:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .category-icon { width: 70px; height: 70px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,212,255,0.35)); }
+        .card-item span { font-weight: 700; font-size: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back">→ الرئيسية</a>
+            <div class="brand"><img src="/static/logo.png" alt=""> BoostForge</div>
+            <div style="width:90px;"></div>
+        </header>
+
+        <h1>قسم الحسابات</h1>
+
+        <div class="grid">
+            <a href="/accounts/netflix" class="card-item">
+                <img src="/static/cube_logo.jpg" alt="Netflix" class="category-icon">
+                <span>نتفلكس</span>
+            </a>
+            <a href="/accounts/shahid" class="card-item">
+                <img src="/static/cube_logo.jpg" alt="Shahid" class="category-icon">
+                <span>شاهد</span>
+            </a>
+        </div>
+    </div>
+    <script>
+        const t = localStorage.getItem('bf_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+    </script>
+</body>
+</html>

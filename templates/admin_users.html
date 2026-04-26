@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الزبائن | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        (function(){
+            var t = localStorage.getItem('bf_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <style>
+        :root {
+            --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33;
+            --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6);
+            --accent:#3b82f6; --accent-2:#00d4ff;
+            --success:#22c55e; --danger:#ef4444;
+        }
+        [data-theme="light"] {
+            --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc;
+            --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6);
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh; padding: 24px; }
+        a { color: inherit; text-decoration: none; }
+        .wrap { max-width: 1100px; margin: 0 auto; }
+        .top { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .top img { height: 42px; width: 42px; border-radius: 10px; }
+        .top .name { font-weight: 900; font-size: 20px; }
+        .top .back { margin-inline-start: auto; font-size: 13px; color: var(--accent-2); font-weight: 700; }
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 22px; padding: 26px; }
+        h1 { margin: 0 0 6px; font-size: 22px; font-weight: 900; }
+        .desc { margin: 0 0 18px; font-size: 13.5px; color: var(--muted); }
+        .nav { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+        .nav a {
+            padding: 10px 18px; border-radius: 12px; background: var(--panel-2);
+            border: 1px solid var(--border); font-weight: 800; font-size: 13.5px;
+        }
+        .nav a.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border-color: transparent; }
+
+        .alert { padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; font-weight: 700; font-size: 13.5px; }
+        .alert.ok { background: rgba(34,197,94,0.15); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
+        .alert.err { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+
+        .search { display: flex; gap: 8px; margin-bottom: 16px; }
+        .search input {
+            flex: 1; padding: 12px 14px; border-radius: 12px;
+            border: 1px solid var(--border); background: var(--panel-2);
+            color: var(--text); font-family: inherit; font-size: 14px; outline: none;
+        }
+        .search input:focus { border-color: var(--accent); }
+        .search button {
+            padding: 12px 20px; border-radius: 12px; border: none;
+            background: var(--accent); color: #fff; font-family: inherit;
+            font-weight: 800; font-size: 13px; cursor: pointer;
+        }
+
+        .user {
+            background: var(--panel-2); border: 1px solid var(--border);
+            border-radius: 16px; padding: 16px; margin-bottom: 12px;
+        }
+        .user .row1 { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+        .user .name { font-weight: 900; font-size: 15px; }
+        .user .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        .balance-pill {
+            padding: 6px 14px; border-radius: 999px;
+            background: linear-gradient(135deg, rgba(34,197,94,0.18), rgba(34,197,94,0.08));
+            color: var(--success); font-weight: 900; font-size: 14px;
+        }
+        .ops { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+        @media (max-width: 600px) { .ops { grid-template-columns: 1fr; } }
+        .op {
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px;
+        }
+        .op label { display: block; font-size: 12px; font-weight: 800; color: var(--accent-2); margin-bottom: 6px; }
+        .op .row { display: flex; gap: 6px; }
+        .op input {
+            flex: 1; padding: 9px 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: var(--panel-2);
+            color: var(--text); font-family: inherit; font-size: 13px; outline: none;
+        }
+        .op input:focus { border-color: var(--accent); }
+        .op button {
+            padding: 9px 14px; border-radius: 10px; border: none;
+            background: var(--accent); color: #fff; font-family: inherit;
+            font-weight: 800; font-size: 12.5px; cursor: pointer; white-space: nowrap;
+        }
+        .op button:hover { transform: translateY(-1px); }
+        .op .hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+        .empty { text-align: center; padding: 50px 20px; color: var(--muted); }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <img src="/static/logo.png" alt="BoostForge">
+            <div class="name">BoostForge - Admin</div>
+            <a class="back" href="/">← الرئيسية</a>
+        </div>
+        <div class="card">
+            <h1>👥 إدارة الزبائن</h1>
+            <p class="desc">عدّل أرصدة الزبائن: حدّد رصيد جديد بالكامل، أو أضف/اخصم مبلغ.</p>
+
+            <div class="nav">
+                <a href="/admin/orders">📦 الطلبات</a>
+                <a href="/admin/users" class="active">👥 الزبائن</a>
+            </div>
+
+            {% if msg %}<div class="alert ok">✓ {{ msg }}</div>{% endif %}
+            {% if err %}<div class="alert err">{{ err }}</div>{% endif %}
+
+            <form class="search" method="GET">
+                <input type="text" name="q" placeholder="ابحث بالإيميل أو الاسم أو المعرّف..." value="{{ q }}">
+                <button type="submit">بحث</button>
+            </form>
+
+            {% if users %}
+                {% for u in users %}
+                <div class="user">
+                    <div class="row1">
+                        <div>
+                            <div class="name">{{ u[2] }} <span style="color: var(--muted); font-weight: 700; font-size: 12px;">{{ u[1] or '' }}</span></div>
+                            <div class="meta">#{{ u[0] }} • {{ u[3] }}</div>
+                        </div>
+                        <div class="balance-pill">${{ '%.2f'|format(u[4]) }}</div>
+                    </div>
+                    <div class="ops">
+                        <form method="POST" class="op">
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="user_id" value="{{ u[0] }}">
+                            <label>إضافة / خصم رصيد</label>
+                            <div class="row">
+                                <input type="number" step="0.01" name="delta" placeholder="مثال: 10 أو -5" required>
+                                <button type="submit">تطبيق</button>
+                            </div>
+                            <div class="hint">رقم موجب يضيف، رقم سالب يخصم.</div>
+                        </form>
+                        <form method="POST" class="op">
+                            <input type="hidden" name="action" value="set">
+                            <input type="hidden" name="user_id" value="{{ u[0] }}">
+                            <label>تحديد رصيد جديد بالكامل</label>
+                            <div class="row">
+                                <input type="number" step="0.01" min="0" name="balance" placeholder="مثال: 25.00" required>
+                                <button type="submit">حفظ</button>
+                            </div>
+                            <div class="hint">يستبدل الرصيد الحالي بالكامل.</div>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="empty">📭 لا يوجد زبائن.</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

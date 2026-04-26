@@ -1,0 +1,209 @@
+[
+  {
+    "id": 1,
+    "name": "PUBG Mobile",
+    "name_ar": "ببجي موبايل",
+    "image": "pubg",
+    "color": "#f4a523",
+    "emoji": "🎮",
+    "packages": [
+      {"id": "p1", "label": "60 UC", "price": 0.95},
+      {"id": "p2", "label": "325 UC", "price": 4.65},
+      {"id": "p3", "label": "660 UC", "price": 9.30},
+      {"id": "p4", "label": "1800 UC", "price": 23.00},
+      {"id": "p5", "label": "3850 UC", "price": 46.00},
+      {"id": "p6", "label": "8100 UC", "price": 90.00}
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Free Fire",
+    "name_ar": "فري فاير",
+    "image": "freefire",
+    "color": "#ff5a1f",
+    "emoji": "🔥",
+    "packages": [
+      {"id": "p1", "label": "Booyah Pass", "price": 4.00},
+      {"id": "p2", "label": "Weekly Membership", "price": 3.00},
+      {"id": "p3", "label": "Monthly Membership", "price": 12.00},
+      {"id": "p4", "label": "100 Gems", "price": 0.97},
+      {"id": "p5", "label": "310 Gems", "price": 2.90},
+      {"id": "p6", "label": "530 Gems", "price": 4.80},
+      {"id": "p7", "label": "1080 Gems", "price": 9.60},
+      {"id": "p8", "label": "2200 Gems", "price": 19.00}
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Jawaker",
+    "name_ar": "جواكر",
+    "image": "jawaker",
+    "color": "#e11d48",
+    "emoji": "🃏",
+    "packages": [
+      {"id": "p1", "label": "Red Accelerator", "price": 2.30},
+      {"id": "p2", "label": "Blue Accelerator", "price": 10.00},
+      {"id": "p3", "label": "Black Accelerator", "price": 20.00},
+      {"id": "p4", "label": "10,000 Tokens", "price": 1.30},
+      {"id": "p5", "label": "20,000 Tokens", "price": 2.60},
+      {"id": "p6", "label": "32,500 Tokens", "price": 4.22},
+      {"id": "p7", "label": "50,000 Tokens", "price": 6.50},
+      {"id": "p8", "label": "70,000 Tokens", "price": 9.10},
+      {"id": "p9", "label": "100,000 Tokens", "price": 13.00},
+      {"id": "p10", "label": "150,000 Tokens", "price": 19.50},
+      {"id": "p11", "label": "175,000 Tokens", "price": 22.75},
+      {"id": "p12", "label": "230,000 Tokens", "price": 29.90},
+      {"id": "p13", "label": "400,000 Tokens", "price": 44.50},
+      {"id": "p14", "label": "525,000 Tokens", "price": 58.20},
+      {"id": "p15", "label": "805,000 Tokens", "price": 88.80}
+    ]
+  },
+  {
+    "id": 4,
+    "name": "8 Ball Pool",
+    "name_ar": "بلياردو",
+    "image": "8ballpool",
+    "color": "#22c55e",
+    "emoji": "🎱",
+    "packages": [
+      {"id": "p1", "label": "Full Access Account 1B Coins", "price": 9.00},
+      {"id": "p2", "label": "50 Cash", "price": 1.08},
+      {"id": "p3", "label": "110 Cash", "price": 2.48},
+      {"id": "p4", "label": "250 Cash", "price": 4.61},
+      {"id": "p5", "label": "800 Cash", "price": 9.50},
+      {"id": "p6", "label": "2000 Cash", "price": 19.80},
+      {"id": "p7", "label": "52K Coins", "price": 1.13},
+      {"id": "p8", "label": "112K Coins", "price": 2.35},
+      {"id": "p9", "label": "256K Coins", "price": 4.11},
+      {"id": "p10", "label": "800K Coins", "price": 9.50},
+      {"id": "p11", "label": "2M Coins", "price": 19.70}
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Yalla Ludo",
+    "name_ar": "يلا لودو",
+    "image": "yallaludo",
+    "color": "#f59e0b",
+    "emoji": "🎲",
+    "packages": [
+      {"id": "p1", "label": "830 Diamonds", "price": 2.10},
+      {"id": "p2", "label": "2320 Diamonds", "price": 4.90},
+      {"id": "p3", "label": "5150 Diamonds", "price": 9.70},
+      {"id": "p4", "label": "13580 Diamonds", "price": 23.90},
+      {"id": "p5", "label": "27640 Diamonds", "price": 47.70},
+      {"id": "p6", "label": "55800 Diamonds", "price": 96.00}
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Clash of Clans",
+    "name_ar": "كلاش أوف كلانس",
+    "image": "coc",
+    "color": "#3b82f6",
+    "emoji": "⚔️",
+    "packages": [
+      {"id": "p1", "label": "Gold Pass", "price": 7.50},
+      {"id": "p2", "label": "550 Gems", "price": 5.70},
+      {"id": "p3", "label": "1320 Gems", "price": 11.50},
+      {"id": "p4", "label": "2750 Gems", "price": 21.30},
+      {"id": "p5", "label": "7150 Gems", "price": 54.00},
+      {"id": "p6", "label": "15400 Gems", "price": 110.00}
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Clash Royale",
+    "name_ar": "كلاش رويال",
+    "image": "clashroyale",
+    "color": "#a855f7",
+    "emoji": "👑",
+    "packages": [
+      {"id": "p1", "label": "Gold Pass", "price": 6.50},
+      {"id": "p2", "label": "Diamond Pass", "price": 13.00},
+      {"id": "p3", "label": "550 Gems", "price": 5.80},
+      {"id": "p4", "label": "1320 Gems", "price": 11.20},
+      {"id": "p5", "label": "2750 Gems", "price": 21.50},
+      {"id": "p6", "label": "7150 Gems", "price": 54.00},
+      {"id": "p7", "label": "15400 Gems", "price": 105.00}
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Hay Day",
+    "name_ar": "هاي داي",
+    "image": "hayday",
+    "color": "#84cc16",
+    "emoji": "🌾",
+    "packages": [
+      {"id": "p1", "label": "Farm Pass", "price": 5.80},
+      {"id": "p2", "label": "156 Diamonds", "price": 5.50},
+      {"id": "p3", "label": "330 Diamonds", "price": 11.00},
+      {"id": "p4", "label": "684 Diamonds", "price": 21.50},
+      {"id": "p5", "label": "1800 Diamonds", "price": 54.00},
+      {"id": "p6", "label": "4800 Diamonds", "price": 110.00}
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Brawl Stars",
+    "name_ar": "براول ستارز",
+    "image": "brawlstars",
+    "color": "#8b5cf6",
+    "emoji": "⭐",
+    "packages": [
+      {"id": "p1", "label": "Brawl Pass Plus", "price": 11.50},
+      {"id": "p2", "label": "33 Gems", "price": 2.50},
+      {"id": "p3", "label": "88 Gems", "price": 5.80},
+      {"id": "p4", "label": "187 Gems", "price": 11.50},
+      {"id": "p5", "label": "396 Gems", "price": 22.00},
+      {"id": "p6", "label": "1045 Gems", "price": 54.00},
+      {"id": "p7", "label": "2200 Gems", "price": 110.00}
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Mobile Legends",
+    "name_ar": "موبايل ليجندز",
+    "image": "mlbb",
+    "color": "#00d4ff",
+    "emoji": "🗡️",
+    "packages": [
+      {"id": "p1", "label": "Weekly Diamond Pass", "price": 2.00},
+      {"id": "p2", "label": "257 Diamonds", "price": 4.50},
+      {"id": "p3", "label": "514 Diamonds", "price": 8.60},
+      {"id": "p4", "label": "1136 Diamonds", "price": 18.50},
+      {"id": "p5", "label": "1756 Diamonds", "price": 28.00},
+      {"id": "p6", "label": "3073 Diamonds", "price": 47.00},
+      {"id": "p7", "label": "3688 Diamonds", "price": 56.40},
+      {"id": "p8", "label": "4480 Diamonds", "price": 74.00},
+      {"id": "p9", "label": "6238 Diamonds", "price": 93.00}
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Roblox",
+    "name_ar": "روبلوكس",
+    "image": "roblox",
+    "color": "#ef4444",
+    "emoji": "🧱",
+    "packages": [
+      {"id": "p1", "label": "Gift Card $10", "price": 9.00},
+      {"id": "p2", "label": "Gift Card $25", "price": 24.00},
+      {"id": "p3", "label": "Gift Card $50", "price": 48.00},
+      {"id": "p4", "label": "Gift Card $100", "price": 96.00}
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Fortnite",
+    "name_ar": "فورتنايت",
+    "image": "fortnite",
+    "color": "#06b6d4",
+    "emoji": "🪂",
+    "packages": [
+      {"id": "p1", "label": "Crew Pack", "price": 8.00},
+      {"id": "p2", "label": "Turkish Outlook Account", "price": 2.50}
+    ]
+  }
+]

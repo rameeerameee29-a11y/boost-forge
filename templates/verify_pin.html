@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التحقق برمز PIN | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        (function(){
+            var t = localStorage.getItem('bf_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <style>
+        :root {
+            --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33;
+            --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6);
+            --accent:#3b82f6; --accent-2:#00d4ff;
+        }
+        [data-theme="light"] {
+            --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc;
+            --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6);
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.35), transparent 50%),
+                radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.25), transparent 50%),
+                radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.30), transparent 50%);
+            background-size: 600px 600px;
+            color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center; padding: 24px;
+        }
+        [data-theme="light"] body { background-image: none; }
+        .card {
+            width: 100%; max-width: 420px; background: var(--panel);
+            border: 1px solid var(--border); border-radius: 22px; padding: 28px;
+            text-align: center;
+        }
+        .logo { height: 52px; width: 52px; border-radius: 12px; margin-bottom: 12px; }
+        h1 { margin: 0 0 8px; font-size: 22px; font-weight: 900; }
+        p { margin: 0 0 20px; font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+        .pin-input {
+            width: 100%; padding: 16px; border-radius: 14px;
+            border: 1px solid var(--border); background: var(--panel-2);
+            color: var(--text); font-family: inherit; font-size: 22px;
+            text-align: center; letter-spacing: 12px; outline: none; font-weight: 800;
+        }
+        .pin-input:focus { border-color: var(--accent); }
+        .btn {
+            width: 100%; padding: 14px 0; border: none; border-radius: 14px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff;
+            font-family: inherit; font-weight: 800; font-size: 15px;
+            cursor: pointer; margin-top: 14px; box-shadow: 0 6px 18px rgba(59,130,246,0.35);
+            transition: 0.2s;
+        }
+        .btn:hover { transform: translateY(-1px); }
+        .err { background: rgba(239,68,68,0.12); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); padding: 10px; border-radius: 10px; margin-bottom: 14px; font-size: 13px; font-weight: 700; }
+        .back { display: inline-block; margin-top: 16px; font-size: 13px; color: var(--muted); }
+        .back:hover { color: var(--accent-2); }
+        a { text-decoration: none; color: inherit; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="/static/logo.png" class="logo" alt="BoostForge">
+        <h1>أدخل رمز PIN</h1>
+        <p>لقد فعّلت التحقق بخطوتين على حسابك. الرجاء إدخال رمز PIN الخاص بك لإكمال تسجيل الدخول.</p>
+        {% if error %}<div class="err">{{ error }}</div>{% endif %}
+        <form method="POST">
+            <input type="password" name="pin" class="pin-input" inputmode="numeric"
+                   pattern="[0-9]{4,8}" maxlength="8" autofocus required placeholder="••••">
+            <button type="submit" class="btn">تأكيد ودخول</button>
+        </form>
+        <a class="back" href="/login">← العودة إلى تسجيل الدخول</a>
+    </div>
+</body>
+</html>
