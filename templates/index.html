@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoostForge | المتجر الرقمي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #070d1c;
+            --bg-2: #0a1124;
+            --panel: #0f1729;
+            --panel-2: #111c33;
+            --border: rgba(255,255,255,0.06);
+            --text: #ffffff;
+            --muted: rgba(255,255,255,0.6);
+            --accent: #3b82f6;
+            --accent-2: #00d4ff;
+            --gold: #d4af37;
+            --whatsapp: #25d366;
+        }
+        [data-theme="light"] {
+            --bg: #f4f6fb;
+            --bg-2: #eaeef7;
+            --panel: #ffffff;
+            --panel-2: #f8fafc;
+            --border: rgba(0,0,0,0.08);
+            --text: #0b1121;
+            --muted: rgba(11,17,33,0.6);
+        }
+
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.35), transparent 50%),
+                radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.25), transparent 50%),
+                radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.30), transparent 50%),
+                radial-gradient(1px 1px at 65% 85%, rgba(255,255,255,0.20), transparent 50%),
+                radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.25), transparent 50%),
+                radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.20), transparent 50%);
+            background-size: 600px 600px;
+            color: var(--text);
+            font-family: 'Cairo', sans-serif;
+            min-height: 100vh;
+        }
+        [data-theme="light"] body { background-image: none; }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== Top bar (mobile) ===== */
+        .topbar {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 50;
+        }
+        .topbar .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 18px; }
+        .topbar .brand img { height: 32px; width: 32px; border-radius: 8px; object-fit: cover; }
+        .menu-btn { background: transparent; border: 1px solid var(--border); color: var(--text); width: 40px; height: 40px; border-radius: 12px; font-size: 20px; cursor: pointer; }
+
+        /* ===== Layout ===== */
+        .layout { display: grid; grid-template-columns: 280px 1fr; gap: 22px; padding: 22px; max-width: 1400px; margin: 0 auto; }
+        @media (max-width: 900px) {
+            .topbar { display: flex; }
+            .layout { grid-template-columns: 1fr; padding: 14px; gap: 14px; }
+            .sidebar { position: fixed; top: 0; right: -100%; width: 290px; height: 100vh; z-index: 200; transition: right 0.35s cubic-bezier(0.4,0,0.2,1); padding: 22px; overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+            .sidebar.open { right: 0; }
+            .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 150; }
+            .overlay.active { opacity: 1; visibility: visible; }
+        }
+
+        /* ===== Sidebar ===== */
+        .sidebar { background: var(--panel); border: 1px solid var(--border); border-radius: 22px; padding: 22px 18px; }
+        .brand-row { display: flex; align-items: center; gap: 12px; padding: 8px 6px 18px; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+        .brand-row img { height: 38px; width: 38px; border-radius: 10px; object-fit: cover; }
+        .brand-row .name { font-weight: 900; font-size: 19px; letter-spacing: 0.3px; }
+
+        .welcome-card { padding: 4px 4px 0; }
+        .welcome-card h3 { margin: 0 0 6px; font-size: 16px; font-weight: 800; }
+        .welcome-card p { margin: 0 0 14px; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+        .auth-row { display: flex; gap: 8px; margin-bottom: 18px; }
+        .btn-login, .btn-register { flex: 1; text-align: center; padding: 12px 0; border-radius: 14px; font-weight: 800; font-size: 14px; transition: 0.25s; }
+        .btn-login { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 4px 14px rgba(59,130,246,0.35); }
+        .btn-register { background: var(--panel-2); color: var(--text); border: 1px solid var(--border); }
+        .btn-login:hover { transform: translateY(-1px); }
+        .btn-register:hover { border-color: var(--accent); }
+
+        .user-box { background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(0,212,255,0.08)); padding: 14px; border-radius: 16px; margin-bottom: 18px; border: 1px solid rgba(59,130,246,0.2); text-align: center; }
+        .user-box .hello { font-size: 12px; color: var(--muted); }
+        .user-box .balance { font-size: 20px; font-weight: 900; color: var(--accent-2); margin-top: 4px; }
+
+        .nav-list { list-style: none; padding: 0; margin: 0 0 22px; }
+        .nav-list li a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; font-size: 14px; font-weight: 600; color: var(--text); transition: 0.2s; margin-bottom: 4px; }
+        .nav-list li a:hover { background: var(--panel-2); }
+        .nav-list li a .ico { width: 18px; text-align: center; opacity: 0.85; }
+        .nav-list li a.danger { color: #ff6b6b; }
+
+        .theme-section { padding: 0 4px; margin-bottom: 18px; }
+        .theme-section .label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+        .referral-section { padding: 0 4px; margin-bottom: 18px; }
+        .referral-section .label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+        .referral-form { display: flex; gap: 6px; }
+        .referral-form input { flex: 1; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text); font-family: inherit; font-size: 12px; outline: none; }
+        .referral-form input:focus { border-color: var(--accent); }
+        .referral-form button { padding: 8px 12px; border-radius: 10px; background: linear-gradient(135deg,var(--accent),var(--accent-2)); color:#fff; border:none; font-family:inherit; font-weight:800; font-size:12px; cursor:pointer; white-space:nowrap; }
+        .referral-active { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 10px; padding: 8px 10px; font-size: 12px; display:flex; flex-direction:column; gap:6px; }
+        .ref-remove { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: #ff6b6b; border-radius: 8px; padding: 4px 10px; font-size: 11px; cursor:pointer; font-family:inherit; font-weight:700; }
+        .ref-msg { font-size: 11.5px; margin-top: 6px; padding: 6px 10px; border-radius: 8px; }
+        .ref-ok { background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+        .ref-err { background: rgba(255,107,107,0.1); color: #ff6b6b; border: 1px solid rgba(255,107,107,0.2); }
+        .theme-toggle { display: flex; background: var(--panel-2); border: 1px solid var(--border); border-radius: 14px; padding: 4px; gap: 4px; }
+        .theme-toggle button { flex: 1; padding: 10px 0; background: transparent; color: var(--text); border: none; border-radius: 10px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 13px; transition: 0.25s; }
+        .theme-toggle button.active { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 3px 10px rgba(59,130,246,0.3); }
+
+        .social-row { display: flex; justify-content: center; gap: 12px; padding: 10px 0 0; }
+        .social-row a { width: 44px; height: 44px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .social-row a:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .social-row a svg { width: 20px; height: 20px; }
+
+        /* ===== Main ===== */
+        .main { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; }
+        @media (max-width: 800px) { .hero-grid { grid-template-columns: 1fr; } }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #1a0f2e 0%, #2a1247 35%, #6b1818 100%);
+            border-radius: 22px; padding: 48px 28px; min-height: 240px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; border: 2px solid var(--gold); position: relative; overflow: hidden;
+        }
+        .hero-banner::before, .hero-banner::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 60px;
+            background: linear-gradient(180deg, var(--gold), #b8860b); opacity: 0.85;
+        }
+        .hero-banner::before { left: -10px; transform: skewX(-15deg); }
+        .hero-banner::after { right: -10px; transform: skewX(15deg); }
+        .hero-banner img { height: 56px; width: 56px; border-radius: 12px; margin-bottom: 14px; position: relative; z-index: 1; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .hero-banner h2 { margin: 0; font-size: 22px; font-weight: 900; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.5); position: relative; z-index: 1; }
+        .hero-banner .sub { margin-top: 8px; font-size: 13px; color: rgba(255,255,255,0.85); position: relative; z-index: 1; }
+
+        .hero-info { background: var(--panel); border: 1px solid var(--border); border-radius: 22px; padding: 26px 22px; }
+        .pill { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(0,212,255,0.1); color: var(--accent-2); font-size: 11.5px; font-weight: 700; border: 1px solid rgba(0,212,255,0.25); margin-bottom: 12px; }
+        .hero-info h1 { margin: 0 0 10px; font-size: 24px; font-weight: 900; }
+        .hero-info p { margin: 0 0 16px; font-size: 13px; color: var(--muted); line-height: 1.7; }
+        .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge { padding: 7px 13px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--border); font-size: 11.5px; font-weight: 700; color: var(--text); }
+
+        .notice-bar { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; padding: 16px 20px; text-align: center; font-size: 13px; color: var(--muted); }
+        .notice-bar a { color: var(--accent-2); font-weight: 700; }
+
+        .section-head { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+        .section-head .titles h2 { margin: 0; font-size: 19px; font-weight: 900; }
+        .section-head .titles p { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); }
+        .section-head .count { padding: 7px 13px; border-radius: 999px; background: var(--panel); border: 1px solid var(--border); font-size: 12px; font-weight: 700; color: var(--muted); }
+
+        /* X-cut category cards */
+        .cats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+        @media (max-width: 1100px) { .cats { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 600px) { .cats { grid-template-columns: repeat(2, 1fr); } }
+
+        .cat-card { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; transition: 0.3s; display: block; }
+        .cat-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(59,130,246,0.15); }
+        .cat-art { position: relative; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .cat-art .x-bg { position: absolute; inset: 0; background:
+            linear-gradient(135deg, transparent 48%, var(--gold) 48%, var(--gold) 52%, transparent 52%),
+            linear-gradient(45deg, transparent 48%, var(--gold) 48%, var(--gold) 52%, transparent 52%);
+            opacity: 0.55; z-index: 1;
+        }
+        .cat-art .corner { position: absolute; width: 65%; height: 65%; background: var(--theme-color, #1a1a2e); z-index: 0; }
+        .cat-art .corner.tl { top: -10%; left: -10%; clip-path: polygon(0 0, 100% 0, 0 100%); }
+        .cat-art .corner.br { bottom: -10%; right: -10%; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+        .cat-art .logo-mark { position: absolute; top: 8px; left: 8px; height: 18px; width: 18px; border-radius: 5px; opacity: 0.85; z-index: 3; }
+        .cat-art .label-top, .cat-art .label-bot { position: absolute; left: 0; right: 0; text-align: center; font-size: 10.5px; font-weight: 800; color: white; letter-spacing: 0.5px; z-index: 3; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
+        .cat-art .label-top { top: 12px; right: 32px; }
+        .cat-art .label-bot { bottom: 12px; }
+        .cat-art .center-icon { position: relative; z-index: 2; width: 56%; height: 56%; display: flex; align-items: center; justify-content: center; }
+        .cat-art .center-icon img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 3px 10px rgba(0,0,0,0.6)); }
+        .cat-meta { padding: 12px 14px 14px; text-align: center; }
+        .cat-meta .t { font-size: 14px; font-weight: 800; }
+        .cat-meta .s { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+
+        .cat-card.games  .cat-art { background: linear-gradient(135deg, #2a1a1a, #4a1818); }
+        .cat-card.games  .corner { background: #2a0f0f; }
+        .cat-card.smm    .cat-art { background: linear-gradient(135deg, #0d2438, #0a3d5c); }
+        .cat-card.smm    .corner { background: #06223a; }
+        .cat-card.apps   .cat-art { background: linear-gradient(135deg, #1a1530, #2d1a4a); }
+        .cat-card.apps   .corner { background: #100a22; }
+        .cat-card.accounts .cat-art { background: linear-gradient(135deg, #1a2a1f, #0f3d24); }
+        .cat-card.accounts .corner { background: #0a2014; }
+        .cat-card.numbers  .cat-art { background: linear-gradient(135deg, #2a201a, #4a3210); }
+        .cat-card.numbers  .corner { background: #20180a; }
+
+        footer { text-align: center; padding: 24px 0 10px; font-size: 12px; color: var(--muted); }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile top bar -->
+    <div class="topbar">
+        <div class="brand">
+            <img src="/static/logo.png" alt="BoostForge">
+            <span>BoostForge</span>
+        </div>
+        <button class="menu-btn" id="menuBtn" aria-label="القائمة">☰</button>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="layout">
+
+        <!-- ===== Sidebar ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-row">
+                <img src="/static/logo.png" alt="BoostForge">
+                <div class="name">BoostForge</div>
+            </div>
+
+            {% if not user %}
+            <div class="welcome-card">
+                <h3>أهلاً بك في BoostForge</h3>
+                <p>سجّل دخولك أو أنشئ حسابًا جديدًا للوصول إلى محفظتك وطلباتك وعروضك الخاصة.</p>
+            </div>
+            <div class="auth-row">
+                <a class="btn-login" href="/login">دخول</a>
+                <a class="btn-register" href="/register">تسجيل</a>
+            </div>
+            {% else %}
+            <div class="user-box">
+                <div class="hello">أهلاً بك، {{ user[0] }}</div>
+                <div class="balance">${{ '%.2f'|format(user[1] or 0) }}</div>
+            </div>
+            {% endif %}
+
+            <ul class="nav-list">
+                <li><a href="/"><span class="ico">⌂</span> الرئيسية</a></li>
+                <li><a href="/about"><span class="ico">ⓘ</span> من نحن</a></li>
+                <li><a href="/payment"><span class="ico">💳</span> طرق الدفع</a></li>
+                <li><a href="/smm"><span class="ico">📱</span> خدمات السوشيال ميديا</a></li>
+                <li><a href="/games"><span class="ico">🎮</span> الألعاب</a></li>
+                <li><a href="/apps"><span class="ico">🛍</span> التطبيقات</a></li>
+                {% if user %}
+                <li><a href="/my-orders"><span class="ico">📦</span> طلباتي</a></li>
+                {% if is_admin %}
+                <li><a href="/admin/orders" style="color: #00d4ff;"><span class="ico">⚙</span> إدارة الطلبات</a></li>
+                <li><a href="/admin/users" style="color: #22c55e;"><span class="ico">👥</span> إدارة الزبائن</a></li>
+                <li><a href="/admin/referrals" style="color: #f59e0b;"><span class="ico">🎟</span> أكواد الإحالة</a></li>
+                {% endif %}
+                <li><a href="/security"><span class="ico">🔒</span> الأمان وتفعيل PIN</a></li>
+                <li><a href="/logout" class="danger"><span class="ico">↩</span> تسجيل الخروج</a></li>
+                {% endif %}
+            </ul>
+
+            <div class="referral-section">
+                <div class="label">🎟 كود الإحالة</div>
+                {% if referral_code %}
+                <div class="referral-active">
+                    <span>✓ كود نشط: <b>{{ referral_code }}</b> — خصم 20% على الحسابات</span>
+                    <form method="POST" action="/remove-referral" style="margin:0;">
+                        <button type="submit" class="ref-remove">إلغاء</button>
+                    </form>
+                </div>
+                {% else %}
+                <form method="POST" action="/apply-referral" class="referral-form">
+                    <input type="text" name="referral_code" placeholder="أدخل الكود هنا" maxlength="30">
+                    <button type="submit">تطبيق</button>
+                </form>
+                {% endif %}
+                {% if referral_msg %}
+                <div class="ref-msg {% if referral_msg[0]=='ok' %}ref-ok{% else %}ref-err{% endif %}">{{ referral_msg[1] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="theme-section">
+                <div class="label">وضع الألوان</div>
+                <div class="theme-toggle">
+                    <button id="themeDark" class="active">داكن</button>
+                    <button id="themeLight">فاتح</button>
+                </div>
+            </div>
+
+            <div class="social-row">
+                <a href="https://wa.me/96171484779" target="_blank" aria-label="WhatsApp" title="WhatsApp">
+                    <svg viewBox="0 0 24 24" fill="#25d366"><path d="M20.5 3.5A11.9 11.9 0 0012 0C5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6A12 12 0 0012 24c6.6 0 12-5.4 12-12 0-3.2-1.3-6.2-3.5-8.5zM12 22a10 10 0 01-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A10 10 0 1122 12c0 5.5-4.5 10-10 10zm5.4-7.5c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5 0-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.2.2 2.1 3.2 5.1 4.5l1.7.5c.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+                </a>
+                <a href="https://www.tiktok.com" target="_blank" aria-label="TikTok" title="TikTok">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.3a5.4 5.4 0 01-3.2-1A5.5 5.5 0 0114.8 2h-3.4v13.5a3.1 3.1 0 11-2.2-3v-3.4a6.5 6.5 0 105.6 6.4V9.7a8.8 8.8 0 005 1.6V8a5.5 5.5 0 01-.2-1.7z"/></svg>
+                </a>
+                <a href="tel:+96171484779" aria-label="Phone" title="اتصل بنا">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.4-.1-.8 0-1 .2l-2.2 2.2a15.1 15.1 0 01-6.6-6.6L8.8 8.5c.3-.3.4-.7.2-1A11.4 11.4 0 018.5 4c0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1A17 17 0 0020 21c.6 0 1-.4 1-1v-3.5c0-.6-.5-1-1-1z"/></svg>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ===== Main ===== -->
+        <main class="main">
+            <div class="hero-grid">
+                <div class="hero-banner">
+                    <img src="/static/logo.png" alt="BoostForge">
+                    <h2>مرحبًا بك في متجر BoostForge</h2>
+                    <div class="sub">boostforge.com  •  +961 71 484 779</div>
+                </div>
+
+                <div class="hero-info">
+                    <span class="pill">BOOSTFORGE HOME</span>
+                    <h1>أهلًا بك في BoostForge</h1>
+                    <p>تصفّح أقسامنا الرئيسية من مكان واحد لتجد الألعاب والتطبيقات والحسابات وبطاقات الهدايا وخدمات السوشيال ميديا والأرقام بسرعة وسهولة.</p>
+                    <div class="badges">
+                        <span class="badge">5 أقسام</span>
+                        <span class="badge">تسليم سريع</span>
+                        <span class="badge">دعم 24/7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notice-bar">
+                رقم الدعم: <a href="tel:+96171484779">+961 71 484 779</a> • انضم إلى مجتمعنا على
+                <a href="https://wa.me/96171484779" target="_blank">واتساب</a> لتصلك أحدث العروض
+            </div>
+
+            <div class="section-head">
+                <div class="titles">
+                    <h2>اختر القسم المناسب</h2>
+                    <p>ألعاب، تطبيقات، حسابات، خدمات سوشيال ميديا وأرقام</p>
+                </div>
+                <span class="count">5 أقسام</span>
+            </div>
+
+            <div class="cats">
+                <a href="/games" class="cat-card games">
+                    <div class="cat-art">
+                        <div class="corner tl"></div>
+                        <div class="corner br"></div>
+                        <div class="x-bg"></div>
+                        <img src="/static/logo.png" class="logo-mark" alt="">
+                        <div class="label-top">THE GAMES</div>
+                        <div class="center-icon"><img src="/static/games.png" alt="Games"></div>
+                        <div class="label-bot">boostforge • shop now</div>
+                    </div>
+                    <div class="cat-meta"><div class="t">الألعاب</div><div class="s">شحن وأكواد ألعاب</div></div>
+                </a>
+
+                <a href="/smm" class="cat-card smm">
+                    <div class="cat-art">
+                        <div class="corner tl"></div>
+                        <div class="corner br"></div>
+                        <div class="x-bg"></div>
+                        <img src="/static/logo.png" class="logo-mark" alt="">
+                        <div class="label-top">SOCIAL MEDIA</div>
+                        <div class="center-icon"><img src="/static/cube_logo.jpg" alt="SMM"></div>
+                        <div class="label-bot">boostforge • shop now</div>
+                    </div>
+                    <div class="cat-meta"><div class="t">خدمات SMM</div><div class="s">متابعين، لايكات، مشاهدات</div></div>
+                </a>
+
+                <a href="/apps" class="cat-card apps">
+                    <div class="cat-art">
+                        <div class="corner tl"></div>
+                        <div class="corner br"></div>
+                        <div class="x-bg"></div>
+                        <img src="/static/logo.png" class="logo-mark" alt="">
+                        <div class="label-top">APPLICATIONS</div>
+                        <div class="center-icon"><img src="/static/cube_logo.jpg" alt="Apps"></div>
+                        <div class="label-bot">boostforge • shop now</div>
+                    </div>
+                    <div class="cat-meta"><div class="t">التطبيقات</div><div class="s">اشتراكات وتطبيقات مميزة</div></div>
+                </a>
+
+                <a href="/accounts" class="cat-card accounts">
+                    <div class="cat-art">
+                        <div class="corner tl"></div>
+                        <div class="corner br"></div>
+                        <div class="x-bg"></div>
+                        <img src="/static/logo.png" class="logo-mark" alt="">
+                        <div class="label-top">ACCOUNTS</div>
+                        <div class="center-icon"><img src="/static/cube_logo.jpg" alt="Accounts"></div>
+                        <div class="label-bot">boostforge • shop now</div>
+                    </div>
+                    <div class="cat-meta"><div class="t">الحسابات</div><div class="s">حسابات رقمية جاهزة</div></div>
+                </a>
+
+                <a href="/about" class="cat-card numbers">
+                    <div class="cat-art">
+                        <div class="corner tl"></div>
+                        <div class="corner br"></div>
+                        <div class="x-bg"></div>
+                        <img src="/static/logo.png" class="logo-mark" alt="">
+                        <div class="label-top">NUMBERS</div>
+                        <div class="center-icon"><img src="/static/cube_logo.jpg" alt="Numbers"></div>
+                        <div class="label-bot">boostforge • shop now</div>
+                    </div>
+                    <div class="cat-meta"><div class="t">الأرقام الدولية</div><div class="s">أرقام وتفعيل خدمات</div></div>
+                </a>
+            </div>
+
+            <footer>© 2026 BoostForge — جميع الحقوق محفوظة</footer>
+        </main>
+    </div>
+
+    <!-- WhatsApp Group Popup -->
+    <div id="waPopupOverlay" style="
+        position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+        z-index: 9999; display: flex; align-items: center; justify-content: center;
+        animation: fadeIn 0.4s ease;
+    ">
+        <div style="
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 22px; padding: 36px 30px; max-width: 400px; width: 90%;
+            text-align: center; position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: slideUp 0.4s ease;
+        ">
+            <div style="
+                width: 70px; height: 70px; border-radius: 50%;
+                background: linear-gradient(135deg, #25d366, #128c7e);
+                display: flex; align-items: center; justify-content: center;
+                margin: 0 auto 18px; font-size: 34px;
+            ">💬</div>
+
+            <h2 style="margin: 0 0 10px; font-size: 22px; font-weight: 900; color: var(--text);">
+                انضم لمجموعة BoostForge!
+            </h2>
+
+            <p style="margin: 0 0 24px; color: var(--muted); font-size: 15px; line-height: 1.7;">
+                مجموعتنا على واتساب — يتم إرسال جميع التحديثات والعروض والأشياء الجديدة عليها.<br>
+                لا تفوّت أي شيء! انضم الآن.
+            </p>
+
+            <a href="https://chat.whatsapp.com/FCd1730ymNz9yUkE8awctV" target="_blank"
+               onclick="closeWaPopup()"
+               style="
+                display: block; background: linear-gradient(135deg, #25d366, #128c7e);
+                color: #fff; font-family: 'Cairo', sans-serif; font-weight: 700;
+                font-size: 17px; padding: 14px 24px; border-radius: 14px;
+                text-decoration: none; margin-bottom: 12px;
+                box-shadow: 0 6px 20px rgba(37,211,102,0.35);
+                transition: transform 0.2s;
+               "
+               onmouseover="this.style.transform='scale(1.03)'"
+               onmouseout="this.style.transform='scale(1)'"
+            >
+                📲 انضم للمجموعة الآن
+            </a>
+
+            <button onclick="closeWaPopup()" style="
+                background: transparent; border: none; color: var(--muted);
+                font-family: 'Cairo', sans-serif; font-size: 14px;
+                cursor: pointer; padding: 6px 12px; border-radius: 8px;
+                text-decoration: underline;
+            ">ربما لاحقاً</button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+
+    <script>
+        function closeWaPopup() {
+            const el = document.getElementById('waPopupOverlay');
+            if (el) { el.style.opacity = '0'; el.style.transition = 'opacity 0.3s'; setTimeout(() => el.remove(), 300); }
+        }
+
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => { sidebar.classList.add('open'); overlay.classList.add('active'); });
+            overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('active'); });
+        }
+
+        const themeDark = document.getElementById('themeDark');
+        const themeLight = document.getElementById('themeLight');
+        const saved = localStorage.getItem('bf_theme') || 'dark';
+        const apply = (t) => {
+            document.documentElement.setAttribute('data-theme', t);
+            themeDark.classList.toggle('active', t === 'dark');
+            themeLight.classList.toggle('active', t === 'light');
+            localStorage.setItem('bf_theme', t);
+        };
+        apply(saved);
+        themeDark.addEventListener('click', () => apply('dark'));
+        themeLight.addEventListener('click', () => apply('light'));
+    </script>
+</body>
+</html>

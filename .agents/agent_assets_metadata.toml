@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "nCzJ919nGEOd4KzV3utos"
+uri = "file://boostforge.zip"
+type = "unspecified"
+title = "BoostForge - مع زر تذكرني"

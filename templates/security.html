@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأمان | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        (function(){
+            var t = localStorage.getItem('bf_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <style>
+        :root {
+            --bg:#070d1c; --bg-2:#0a1124; --panel:#0f1729; --panel-2:#111c33;
+            --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6);
+            --accent:#3b82f6; --accent-2:#00d4ff; --gold:#d4af37;
+        }
+        [data-theme="light"] {
+            --bg:#f4f6fb; --bg-2:#eaeef7; --panel:#fff; --panel-2:#f8fafc;
+            --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6);
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.35), transparent 50%),
+                radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.25), transparent 50%),
+                radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.30), transparent 50%);
+            background-size: 600px 600px;
+            color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center; padding: 24px;
+        }
+        [data-theme="light"] body { background-image: none; }
+        a { color: inherit; text-decoration: none; }
+        .wrap { width: 100%; max-width: 560px; }
+        .top { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .top img { height: 42px; width: 42px; border-radius: 10px; }
+        .top .name { font-weight: 900; font-size: 20px; }
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 22px; padding: 26px; }
+        h1 { margin: 0 0 6px; font-size: 22px; font-weight: 900; }
+        .desc { margin: 0 0 18px; font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+        .status {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 16px; border-radius: 14px; background: var(--panel-2);
+            border: 1px solid var(--border); margin-bottom: 18px;
+        }
+        .status .label { font-size: 13px; color: var(--muted); }
+        .status .value { font-weight: 800; font-size: 15px; }
+        .status .value.on { color: #22c55e; }
+        .status .value.off { color: #f97316; }
+        label { display: block; font-size: 13px; font-weight: 700; margin: 12px 0 6px; }
+        input {
+            width: 100%; padding: 13px 14px; border-radius: 12px;
+            border: 1px solid var(--border); background: var(--panel-2);
+            color: var(--text); font-family: inherit; font-size: 14px; outline: none;
+        }
+        input:focus { border-color: var(--accent); }
+        .btn {
+            width: 100%; padding: 13px 0; border: none; border-radius: 14px;
+            font-family: inherit; font-weight: 800; font-size: 14.5px;
+            cursor: pointer; margin-top: 14px; transition: 0.2s;
+        }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; box-shadow: 0 6px 18px rgba(59,130,246,0.35); }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-danger { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; }
+        .msg { padding: 12px 14px; border-radius: 12px; margin-bottom: 14px; font-size: 13px; font-weight: 700; }
+        .msg.ok { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
+        .msg.err { background: rgba(239,68,68,0.12); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+        .back { display: inline-block; margin-top: 16px; font-size: 13px; color: var(--accent-2); font-weight: 700; }
+        .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        .divider { height: 1px; background: var(--border); margin: 22px 0; }
+        h3 { margin: 0 0 4px; font-size: 16px; font-weight: 800; }
+        .opt-note { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <img src="/static/logo.png" alt="BoostForge">
+            <div class="name">BoostForge</div>
+        </div>
+
+        <div class="card">
+            <h1>الأمان والتحقق بخطوتين</h1>
+            <p class="desc">تفعيل رمز PIN <b>اختياري</b>. عند تفعيله، سيُطلب منك إدخاله بعد كلمة المرور عند كل تسجيل دخول لزيادة حماية حسابك.</p>
+
+            {% if msg %}<div class="msg ok">{{ msg }}</div>{% endif %}
+            {% if err %}<div class="msg err">{{ err }}</div>{% endif %}
+
+            <div class="status">
+                <span class="label">حالة التحقق بخطوتين</span>
+                {% if user[3] %}
+                    <span class="value on">● مُفعّل</span>
+                {% else %}
+                    <span class="value off">● غير مُفعّل</span>
+                {% endif %}
+            </div>
+
+            {% if not user[3] %}
+            <h3>تفعيل رمز PIN</h3>
+            <p class="opt-note">اختر رمزًا من 4 إلى 8 أرقام. ستحتاجه عند كل تسجيل دخول.</p>
+            <form method="POST">
+                <input type="hidden" name="action" value="enable">
+                <label>كلمة المرور الحالية</label>
+                <input type="password" name="password" required>
+                <label>رمز PIN جديد</label>
+                <input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8" required>
+                <div class="hint">من 4 إلى 8 أرقام فقط</div>
+                <label>تأكيد رمز PIN</label>
+                <input type="password" name="pin_confirm" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8" required>
+                <button type="submit" class="btn btn-primary">تفعيل التحقق بخطوتين</button>
+            </form>
+            {% else %}
+            <h3>إلغاء رمز PIN</h3>
+            <p class="opt-note">يمكنك إلغاء التحقق بخطوتين في أي وقت. أدخل كلمة المرور للتأكيد.</p>
+            <form method="POST">
+                <input type="hidden" name="action" value="disable">
+                <label>كلمة المرور الحالية</label>
+                <input type="password" name="password" required>
+                <button type="submit" class="btn btn-danger">إلغاء التحقق بخطوتين</button>
+            </form>
+            {% endif %}
+
+            <a class="back" href="/">← العودة إلى الرئيسية</a>
+        </div>
+    </div>
+</body>
+</html>

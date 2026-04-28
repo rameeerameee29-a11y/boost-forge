@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الطلبات | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        (function(){
+            var t = localStorage.getItem('bf_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <style>
+        :root {
+            --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33;
+            --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6);
+            --accent:#3b82f6; --accent-2:#00d4ff;
+            --pending:#f59e0b; --success:#22c55e; --cancelled:#ef4444;
+        }
+        [data-theme="light"] {
+            --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc;
+            --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6);
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh; padding: 24px; }
+        a { color: inherit; text-decoration: none; }
+        .wrap { max-width: 1100px; margin: 0 auto; }
+        .top { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .top img { height: 42px; width: 42px; border-radius: 10px; }
+        .top .name { font-weight: 900; font-size: 20px; }
+        .top .back { margin-inline-start: auto; font-size: 13px; color: var(--accent-2); font-weight: 700; }
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 22px; padding: 26px; }
+        h1 { margin: 0 0 6px; font-size: 22px; font-weight: 900; }
+        .desc { margin: 0 0 18px; font-size: 13.5px; color: var(--muted); }
+
+        .order {
+            background: var(--panel-2); border: 1px solid var(--border);
+            border-radius: 16px; padding: 16px; margin-bottom: 12px;
+        }
+        .order .row1 { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+        .order .title { font-weight: 900; font-size: 15px; }
+        .order .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        .order .details { font-size: 13px; color: var(--muted); margin-top: 8px; white-space: pre-line; line-height: 1.7; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; }
+        .amount { font-weight: 900; color: var(--accent-2); font-size: 15px; }
+        .badge { padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 800; }
+        .badge.pending { background: rgba(245,158,11,0.15); color: var(--pending); }
+        .badge.success { background: rgba(34,197,94,0.15); color: var(--success); }
+        .badge.cancelled { background: rgba(239,68,68,0.15); color: var(--cancelled); }
+        .actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .actions form { margin: 0; }
+        .actions button {
+            padding: 8px 14px; border-radius: 10px; border: none;
+            font-family: inherit; font-weight: 800; font-size: 12.5px;
+            cursor: pointer; color: #fff; transition: 0.2s;
+        }
+        .btn-pending { background: var(--pending); }
+        .btn-success { background: var(--success); }
+        .btn-cancelled { background: var(--cancelled); }
+        .actions button:hover { transform: translateY(-1px); }
+        .note-form {
+            margin-top: 12px; padding: 12px;
+            background: rgba(59,130,246,0.08); border: 1px dashed rgba(59,130,246,0.3);
+            border-radius: 12px;
+        }
+        .note-form label { display: block; font-size: 12px; font-weight: 800; color: var(--accent-2); margin-bottom: 6px; }
+        .note-form textarea {
+            width: 100%; min-height: 70px; padding: 10px 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: var(--panel);
+            color: var(--text); font-family: inherit; font-size: 13px;
+            resize: vertical; outline: none;
+        }
+        .note-form textarea:focus { border-color: var(--accent); }
+        .note-form button {
+            margin-top: 8px; padding: 8px 16px; border-radius: 10px; border: none;
+            background: var(--accent); color: #fff; font-family: inherit;
+            font-weight: 800; font-size: 12.5px; cursor: pointer;
+        }
+        .note-form button:hover { transform: translateY(-1px); }
+        .empty { text-align: center; padding: 50px 20px; color: var(--muted); }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <img src="/static/logo.png" alt="BoostForge">
+            <div class="name">BoostForge - Admin</div>
+            <a class="back" href="/">← الرئيسية</a>
+        </div>
+        <div class="card">
+            <h1>⚙ إدارة الطلبات</h1>
+            <p class="desc">غيّر حالة كل طلب: قيد الانتظار / ناجح / ملغي.</p>
+            <div style="display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap;">
+                <a href="/admin/orders" style="padding: 10px 18px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; font-weight: 800; font-size: 13.5px;">📦 الطلبات</a>
+                <a href="/admin/users" style="padding: 10px 18px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--border); font-weight: 800; font-size: 13.5px;">👥 الزبائن</a>
+            </div>
+            {% if orders %}
+                {% for o in orders %}
+                <div class="order">
+                    <div class="row1">
+                        <div>
+                            <div class="title">
+                                {% if o[2] == 'game' %}🎮
+                                {% elif o[2] == 'app' %}📱
+                                {% elif o[2] == 'payment' %}💳{% endif %}
+                                {{ o[3] }}
+                            </div>
+                            <div class="meta">طلب #{{ o[0] }} • {{ o[8] }} • {{ o[1] }}{% if o[6] %} • واتساب: {{ o[6] }}{% endif %}</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            {% if o[5] %}<span class="amount">${{ '%.2f'|format(o[5]) }}</span>{% endif %}
+                            <span class="badge {{ o[7] }}">
+                                {% if o[7] == 'pending' %}قيد الانتظار
+                                {% elif o[7] == 'success' %}ناجح
+                                {% else %}ملغي{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    {% if o[4] %}<div class="details">{{ o[4] }}</div>{% endif %}
+                    <div class="actions">
+                        <form method="POST"><input type="hidden" name="order_id" value="{{ o[0] }}"><input type="hidden" name="status" value="pending"><button class="btn-pending">قيد الانتظار</button></form>
+                        <form method="POST"><input type="hidden" name="order_id" value="{{ o[0] }}"><input type="hidden" name="status" value="success"><button class="btn-success">ناجح ✓</button></form>
+                        <form method="POST"><input type="hidden" name="order_id" value="{{ o[0] }}"><input type="hidden" name="status" value="cancelled"><button class="btn-cancelled">ملغي ✕</button></form>
+                    </div>
+                    <form method="POST" class="note-form">
+                        <input type="hidden" name="order_id" value="{{ o[0] }}">
+                        <input type="hidden" name="action" value="note">
+                        <label>📩 ملاحظة للزبون (تظهرله بصفحة طلباتي)</label>
+                        <textarea name="admin_note" placeholder="مثال: تم إرسال حساب نتفليكس عالإيميل، تأكد من الرسائل خلال 5 دقائق...">{{ o[9] or '' }}</textarea>
+                        <button type="submit">حفظ الملاحظة</button>
+                    </form>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="empty">📭 لا توجد طلبات بعد.</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خدمات SMM | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33; --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6); --accent:#3b82f6; --accent-2:#00d4ff; }
+        [data-theme="light"] { --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc; --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6); }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0;
+            background-image: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3), transparent 50%), radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.2), transparent 50%); background-size: 600px 600px; }
+        [data-theme="light"] body { background-image: none; }
+        .container { width: 94%; max-width: 900px; margin: auto; padding-bottom: 60px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 17px; }
+        .brand img { height: 32px; width: 32px; border-radius: 8px; object-fit: cover; }
+        .back { color: var(--accent-2); text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
+        h1 { font-size: 22px; margin: 8px 0 12px; text-align: center; }
+
+        .search-box { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 8px 0 14px; }
+        .search-box input { width: 100%; padding: 13px 16px; border-radius: 14px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font-family: 'Cairo', sans-serif; font-size: 14px; }
+        .search-box input:focus { outline: none; border-color: var(--accent); }
+        .stats { font-size: 12px; color: var(--muted); margin-top: 8px; text-align: center; }
+
+        .category { background: var(--panel); border-radius: 18px; margin-bottom: 12px; border: 1px solid var(--border); overflow: hidden; }
+        .category-head { padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(0,212,255,0.04)); font-weight: 700; font-size: 14px; }
+        .category-head .arrow { transition: 0.3s; color: var(--accent-2); }
+        .category.open .arrow { transform: rotate(180deg); }
+        .category-body { display: none; padding: 8px 12px 14px; }
+        .category.open .category-body { display: block; }
+
+        .service { background: var(--panel-2); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; margin-top: 8px; }
+        .service-name { font-size: 13px; font-weight: 600; line-height: 1.5; }
+        .service-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 8px; font-size: 12px; color: var(--muted); }
+        .price { color: var(--accent-2); font-weight: 800; }
+        .badge { background: rgba(0,212,255,0.12); color: var(--accent-2); padding: 3px 9px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+
+        .empty { text-align: center; color: var(--muted); padding: 30px; }
+
+        .order-btn {
+            margin-top: 10px; padding: 9px 16px; border-radius: 10px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #fff; border: none; font-family: 'Cairo', sans-serif;
+            font-weight: 800; font-size: 12.5px; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37,211,102,0.25); transition: 0.2s;
+        }
+        .order-btn:hover { transform: translateY(-1px); }
+        .order-form {
+            display: none; margin-top: 10px; padding: 12px;
+            background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+        }
+        .order-form.show { display: block; }
+        .order-form label { display: block; font-size: 12px; font-weight: 700; margin: 8px 0 4px; }
+        .order-form input {
+            width: 100%; padding: 9px 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: var(--panel);
+            color: var(--text); font-family: inherit; font-size: 13px; outline: none;
+        }
+        .order-form input:focus { border-color: var(--accent); }
+        .order-form .total {
+            margin-top: 10px; padding: 10px; border-radius: 10px;
+            background: rgba(34,197,94,0.1); color: #22c55e;
+            font-weight: 800; text-align: center; font-size: 13px;
+        }
+        .order-form .submit {
+            width: 100%; margin-top: 10px; padding: 11px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #fff; border: none; border-radius: 10px;
+            font-family: inherit; font-weight: 800; font-size: 13px; cursor: pointer;
+        }
+        .order-form .submit:hover { transform: translateY(-1px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back">→ الرئيسية</a>
+            <div class="brand"><img src="/static/logo.png" alt=""> BoostForge</div>
+            <div style="width:90px;"></div>
+        </header>
+
+        <h1>خدمات السوشيال ميديا</h1>
+
+        <div class="search-box">
+            <input type="text" id="search" placeholder="ابحث عن خدمة أو قسم...">
+            <div class="stats">{{ categories|length }} قسم — {{ data.values()|map('length')|sum }} خدمة (السعر بالدولار لكل 1000)</div>
+        </div>
+
+        <div id="cats">
+        {% for cat in categories %}
+            <div class="category" data-cat="{{ cat|lower }}">
+                <div class="category-head">
+                    <span>{{ cat }}</span>
+                    <span><span class="badge">{{ data[cat]|length }}</span> <span class="arrow">▼</span></span>
+                </div>
+                <div class="category-body">
+                    {% for s in data[cat] %}
+                    <div class="service" data-name="{{ s.name|lower }}">
+                        <div class="service-name">{{ s.name }}</div>
+                        <div class="service-meta">
+                            <span>السعر / 1000: <span class="price">${{ "%.4f"|format(s.price) }}</span></span>
+                            <span>الحد الأدنى: {{ s.min }}</span>
+                            <span>الحد الأقصى: {{ s.max }}</span>
+                        </div>
+                        <button type="button" class="order-btn" onclick="toggleOrder(this)">🛒 اطلب الآن</button>
+                        <form method="POST" class="order-form" data-price="{{ s.price }}" data-min="{{ s.min }}" data-max="{{ s.max }}">
+                            <input type="hidden" name="category" value="{{ cat }}">
+                            <input type="hidden" name="service_name" value="{{ s.name }}">
+                            <label>الرابط (رابط الحساب أو المنشور)</label>
+                            <input type="text" name="link" placeholder="https://..." required>
+                            <label>الكمية (بين {{ s.min }} و {{ s.max }})</label>
+                            <input type="number" name="quantity" min="{{ s.min }}" max="{{ s.max }}" placeholder="مثال: {{ s.min }}" required oninput="calcTotal(this)">
+                            <label>رقم واتساب للتواصل</label>
+                            <input type="text" name="whatsapp" placeholder="مثال: 96171000000" required>
+                            <div class="total">السعر الإجمالي: <span class="total-val">$0.00</span></div>
+                            <button type="submit" class="submit">إرسال الطلب عبر واتساب</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <div id="empty" class="empty" style="display:none;">لا توجد نتائج مطابقة</div>
+    </div>
+
+    <script>
+        const t = localStorage.getItem('bf_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+
+        function toggleOrder(btn) {
+            const form = btn.nextElementSibling;
+            form.classList.toggle('show');
+        }
+        function calcTotal(input) {
+            const form = input.closest('.order-form');
+            const price = parseFloat(form.dataset.price);
+            const qty = parseInt(input.value || '0');
+            const total = (qty * price / 1000).toFixed(4);
+            form.querySelector('.total-val').textContent = '$' + total;
+        }
+
+        document.querySelectorAll('.category-head').forEach(h => {
+            h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
+        });
+
+        const search = document.getElementById('search');
+        const cats = document.querySelectorAll('.category');
+        const empty = document.getElementById('empty');
+
+        let timer;
+        search.addEventListener('input', () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                const q = search.value.trim().toLowerCase();
+                let visibleCats = 0;
+                cats.forEach(cat => {
+                    if (!q) {
+                        cat.style.display = '';
+                        cat.classList.remove('open');
+                        cat.querySelectorAll('.service').forEach(s => s.style.display = '');
+                        visibleCats++;
+                        return;
+                    }
+                    const catName = cat.dataset.cat;
+                    let anyService = false;
+                    cat.querySelectorAll('.service').forEach(s => {
+                        const match = s.dataset.name.includes(q) || catName.includes(q);
+                        s.style.display = match ? '' : 'none';
+                        if (match) anyService = true;
+                    });
+                    if (anyService) {
+                        cat.style.display = '';
+                        cat.classList.add('open');
+                        visibleCats++;
+                    } else {
+                        cat.style.display = 'none';
+                    }
+                });
+                empty.style.display = visibleCats ? 'none' : 'block';
+            }, 150);
+        });
+    </script>
+</body>
+</html>

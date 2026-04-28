@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ game.name }} | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33; --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6); --accent:#3b82f6; --accent-2:#00d4ff; }
+        [data-theme="light"] { --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc; --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6); }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; margin: 0;
+            background-image: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3), transparent 50%), radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.2), transparent 50%); background-size: 600px 600px; }
+        [data-theme="light"] body { background-image: none; }
+        .container { width: 94%; max-width: 750px; margin: auto; padding-bottom: 50px; }
+        header { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 17px; }
+        .brand img { height: 32px; width: 32px; border-radius: 8px; object-fit: cover; }
+        .back-btn { color: var(--accent-2); text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
+
+        /* Hero */
+        .game-hero { background: var(--panel); border-radius: 22px; padding: 24px; border: 1px solid var(--border); margin-bottom: 20px; display: flex; align-items: center; gap: 18px; border-top: 3px solid {{ game.color }}; }
+        .game-emoji-big { font-size: 52px; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 20px; background: {{ game.color }}22; flex-shrink: 0; }
+        .game-hero-info h1 { font-size: 22px; font-weight: 900; margin: 0 0 4px; }
+        .game-hero-info .sub { font-size: 13px; color: var(--muted); }
+        .badge-fast { display: inline-block; background: rgba(34,197,94,0.15); color: #4ade80; border-radius: 9px; padding: 4px 10px; font-size: 11px; font-weight: 800; margin-top: 8px; }
+
+        /* Package selection */
+        h2.section-title { font-size: 16px; font-weight: 900; margin: 0 0 14px; color: var(--muted); letter-spacing: 0.5px; }
+        .packages-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        @media (min-width: 500px) { .packages-grid { grid-template-columns: repeat(3, 1fr); } }
+        .pkg-card {
+            background: var(--panel); border: 2px solid var(--border); border-radius: 16px;
+            padding: 16px 10px; text-align: center; cursor: pointer; transition: 0.2s;
+        }
+        .pkg-card:hover { border-color: {{ game.color }}; transform: translateY(-2px); }
+        .pkg-card.selected { border-color: {{ game.color }}; background: {{ game.color }}18; box-shadow: 0 0 0 1px {{ game.color }}44; }
+        .pkg-label { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+        .pkg-price { font-size: 20px; font-weight: 900; color: {{ game.color }}; }
+        .pkg-price span { font-size: 13px; font-weight: 600; }
+
+        /* Form */
+        .order-panel { background: var(--panel); border-radius: 22px; padding: 22px; border: 1px solid var(--border); }
+        .field { margin-bottom: 14px; }
+        label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+        input[type=text] { width: 100%; padding: 13px 15px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-family: 'Cairo', sans-serif; font-size: 15px; }
+        input:focus { outline: none; border-color: var(--accent); }
+
+        .total-box { background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(0,212,255,0.07)); border: 1px solid rgba(0,212,255,0.2); border-radius: 16px; padding: 18px; text-align: center; margin: 18px 0; }
+        .total-label { font-size: 12px; color: var(--muted); }
+        .total-value { font-size: 32px; font-weight: 900; color: var(--accent-2); margin-top: 4px; }
+
+        .buy-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #25d366, #128c7e); border: none; border-radius: 14px; color: white; font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 900; cursor: pointer; transition: 0.25s; box-shadow: 0 6px 18px rgba(37,211,102,0.3); }
+        .buy-btn:hover { transform: translateY(-2px); }
+        .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.7; }
+        .no-select { font-size: 13px; color: var(--muted); margin-bottom: 10px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/games" class="back-btn">→ الألعاب</a>
+            <div class="brand"><img src="/static/logo.png" alt=""> BoostForge</div>
+            <div style="width:90px;"></div>
+        </header>
+
+        <div class="game-hero">
+            <div class="game-emoji-big">{{ game.emoji }}</div>
+            <div class="game-hero-info">
+                <h1>{{ game.name }}</h1>
+                <div class="sub">{{ game.name_ar }} — اختر الباقة المناسبة</div>
+                <span class="badge-fast">⚡ توصيل فوري</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">اختر الباقة</h2>
+        <div class="packages-grid" id="packagesGrid">
+            {% for pkg in game.packages %}
+            <div class="pkg-card" data-id="{{ pkg.id }}" data-price="{{ pkg.price }}" data-label="{{ pkg.label }}" onclick="selectPkg(this)">
+                <div class="pkg-label">{{ pkg.label }}</div>
+                <div class="pkg-price">{{ '%.2f'|format(pkg.price) }}<span> $</span></div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="order-panel">
+            <p class="no-select" id="noSelectMsg">👆 اختر الباقة أولاً</p>
+            <form method="POST" id="orderForm" onsubmit="return validateForm()">
+                <input type="hidden" name="package_id" id="pkgInput" value="">
+                <div class="field">
+                    <label for="player_id">معرّف اللاعب / ID</label>
+                    <input type="text" id="player_id" name="player_id" placeholder="أدخل معرّف اللاعب أو الإيميل" required>
+                </div>
+                <div class="field">
+                    <label for="whatsapp">رقم الواتساب للتواصل</label>
+                    <input type="text" id="whatsapp" name="whatsapp" placeholder="مثال: 96171000000" required>
+                </div>
+
+                <div class="total-box">
+                    <div class="total-label">السعر الإجمالي</div>
+                    <div class="total-value" id="totalDisplay">-- $</div>
+                </div>
+
+                <button type="submit" class="buy-btn" id="buyBtn" disabled>
+                    📲 اطلب الآن عبر الواتساب
+                </button>
+                <p class="note">سيتم تحويلك لواتساب لإتمام الطلب ✓ سيتم الشحن في أقرب وقت ✓</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const t = localStorage.getItem('bf_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+
+        let selectedPkg = null;
+
+        function selectPkg(el) {
+            document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedPkg = { id: el.dataset.id, price: el.dataset.price, label: el.dataset.label };
+            document.getElementById('pkgInput').value = selectedPkg.id;
+            document.getElementById('totalDisplay').textContent = parseFloat(selectedPkg.price).toFixed(2) + ' $';
+            document.getElementById('noSelectMsg').style.display = 'none';
+            document.getElementById('buyBtn').disabled = false;
+        }
+
+        function validateForm() {
+            if (!selectedPkg) { alert('الرجاء اختيار باقة أولاً'); return false; }
+            const pid = document.getElementById('player_id').value.trim();
+            const wa = document.getElementById('whatsapp').value.trim();
+            if (!pid) { alert('الرجاء إدخال معرّف اللاعب'); return false; }
+            if (!wa) { alert('الرجاء إدخال رقم الواتساب'); return false; }
+            return true;
+        }
+    </script>
+</body>
+</html>

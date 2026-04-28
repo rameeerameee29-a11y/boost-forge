@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طرق الدفع | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        (function(){
+            var t = localStorage.getItem('bf_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <style>
+        :root {
+            --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33;
+            --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6);
+            --accent:#3b82f6; --accent-2:#00d4ff; --gold:#d4af37;
+            --whish:#e1196b; --whatsapp:#25d366;
+        }
+        [data-theme="light"] {
+            --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc;
+            --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6);
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.35), transparent 50%),
+                radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.25), transparent 50%),
+                radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.30), transparent 50%);
+            background-size: 600px 600px;
+            color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh;
+            padding: 24px;
+        }
+        [data-theme="light"] body { background-image: none; }
+        a { color: inherit; text-decoration: none; }
+
+        .wrap { max-width: 720px; margin: 0 auto; }
+        .top { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .top img { height: 42px; width: 42px; border-radius: 10px; }
+        .top .name { font-weight: 900; font-size: 20px; }
+        .top .back { margin-inline-start: auto; font-size: 13px; color: var(--accent-2); font-weight: 700; }
+
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 22px; padding: 26px; margin-bottom: 18px; }
+        h1 { margin: 0 0 6px; font-size: 22px; font-weight: 900; }
+        .desc { margin: 0 0 18px; font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+
+        .method {
+            display: flex; align-items: center; gap: 14px;
+            padding: 16px; border-radius: 16px; background: var(--panel-2);
+            border: 1px solid var(--border); margin-bottom: 18px;
+        }
+        .method .badge {
+            width: 64px; height: 64px; border-radius: 16px;
+            background: linear-gradient(135deg, var(--whish), #a01250);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; color: #fff; font-size: 18px; letter-spacing: 1px;
+            box-shadow: 0 6px 18px rgba(225,25,107,0.35);
+            flex-shrink: 0;
+        }
+        .method .info .t { font-weight: 900; font-size: 16px; }
+        .method .info .s { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+
+        .alert {
+            background: linear-gradient(135deg, rgba(225,25,107,0.12), rgba(225,25,107,0.05));
+            border: 1px solid rgba(225,25,107,0.3);
+            padding: 18px; border-radius: 16px; margin-bottom: 18px;
+        }
+        .alert .label { font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+        .alert .number {
+            font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap; direction: ltr;
+        }
+        [data-theme="light"] .alert .number { color: #0b1121; }
+        .alert .copy-btn {
+            background: var(--whish); color: #fff; border: none; padding: 8px 14px;
+            border-radius: 10px; font-family: inherit; font-weight: 800; font-size: 12.5px;
+            cursor: pointer; transition: 0.2s;
+        }
+        .alert .copy-btn:hover { transform: translateY(-1px); }
+        .alert .hint { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+
+        .steps {
+            background: var(--panel-2); border: 1px solid var(--border);
+            border-radius: 16px; padding: 16px 20px; margin-bottom: 22px;
+        }
+        .steps h4 { margin: 0 0 10px; font-size: 14px; font-weight: 800; }
+        .steps ol { margin: 0; padding-inline-start: 20px; font-size: 13px; color: var(--muted); line-height: 1.9; }
+
+        h3 { margin: 0 0 6px; font-size: 17px; font-weight: 900; }
+        .invoice-note { font-size: 13px; color: var(--muted); margin: 0 0 14px; line-height: 1.7; }
+
+        label { display: block; font-size: 13px; font-weight: 700; margin: 12px 0 6px; }
+        input, textarea {
+            width: 100%; padding: 13px 14px; border-radius: 12px;
+            border: 1px solid var(--border); background: var(--panel-2);
+            color: var(--text); font-family: inherit; font-size: 14px; outline: none;
+            resize: vertical;
+        }
+        input:focus, textarea:focus { border-color: var(--accent); }
+
+        .btn-wa {
+            width: 100%; padding: 14px 0; border: none; border-radius: 14px;
+            background: linear-gradient(135deg, #25d366, #128c7e); color: #fff;
+            font-family: inherit; font-weight: 800; font-size: 15px;
+            cursor: pointer; margin-top: 16px; box-shadow: 0 6px 18px rgba(37,211,102,0.35);
+            transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-wa:hover { transform: translateY(-1px); }
+        .btn-wa svg { width: 20px; height: 20px; }
+
+        .copied { color: #22c55e; font-size: 12px; font-weight: 700; margin-inline-start: 8px; opacity: 0; transition: 0.3s; }
+        .copied.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <img src="/static/logo.png" alt="BoostForge">
+            <div class="name">BoostForge</div>
+            <a class="back" href="/">← الرئيسية</a>
+        </div>
+
+        <div class="card">
+            <h1>طرق الدفع</h1>
+            <p class="desc">اختر طريقة الدفع المناسبة، حوّل المبلغ، ثم أرسل لنا الفاتورة عبر واتساب لتأكيد العملية وشحن رصيدك.</p>
+            {% if flash %}
+            <div style="background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4); color: #ef4444; padding: 14px 16px; border-radius: 14px; margin-bottom: 16px; font-weight: 700; font-size: 14px;">⚠ {{ flash }}</div>
+            {% endif %}
+
+            <div class="method">
+                <div class="badge">Whish</div>
+                <div class="info">
+                    <div class="t">Whish Money</div>
+                    <div class="s">طريقة الدفع المعتمدة لشحن الرصيد</div>
+                </div>
+            </div>
+
+            <div class="alert">
+                <div class="label">أرسل الأموال إلى الرقم التالي عبر Whish Money:</div>
+                <div class="number">
+                    <span id="whishNumber">+961 70 862 314</span>
+                    <button class="copy-btn" id="copyBtn" type="button">نسخ الرقم</button>
+                    <span class="copied" id="copied">تم النسخ ✓</span>
+                </div>
+                <div class="hint">بعد إتمام التحويل، عبّئ النموذج أدناه وأرسل لنا الفاتورة عبر واتساب لتأكيد عملية الدفع.</div>
+            </div>
+
+            <div class="steps">
+                <h4>كيفية الدفع عبر Whish Money</h4>
+                <ol>
+                    <li>افتح تطبيق Whish Money على هاتفك.</li>
+                    <li>اختر "إرسال أموال" وأدخل الرقم: <b dir="ltr">+961 70 862 314</b></li>
+                    <li>أدخل المبلغ وأكّد التحويل.</li>
+                    <li>عبّئ النموذج بالأسفل وأرسل لنا الفاتورة على واتساب.</li>
+                </ol>
+            </div>
+
+            <h3>إرسال فاتورة الدفع</h3>
+            <p class="invoice-note">عبّئ المعلومات أدناه واضغط على الزر ليتم تحويلك مباشرة إلى واتساب مع الفاتورة جاهزة للإرسال.</p>
+
+            <form method="POST">
+                <label>الاسم الكامل</label>
+                <input type="text" name="sender_name" required {% if user %}value="{{ user[0] }}"{% endif %}>
+
+                <label>المبلغ المُحوّل (بالدولار)</label>
+                <input type="number" name="amount" step="0.01" min="1" required placeholder="مثال: 10">
+
+                <label>ملاحظات (اختياري)</label>
+                <textarea name="note" rows="3" placeholder="أي تفاصيل إضافية حول الطلب"></textarea>
+
+                <button type="submit" class="btn-wa">
+                    <svg viewBox="0 0 24 24" fill="#fff"><path d="M20.5 3.5A11.9 11.9 0 0012 0C5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6A12 12 0 0012 24c6.6 0 12-5.4 12-12 0-3.2-1.3-6.2-3.5-8.5zM12 22a10 10 0 01-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A10 10 0 1122 12c0 5.5-4.5 10-10 10zm5.4-7.5c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5 0-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.2.2 2.1 3.2 5.1 4.5l1.7.5c.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+                    إرسال الفاتورة عبر واتساب
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const btn = document.getElementById('copyBtn');
+        const copied = document.getElementById('copied');
+        btn.addEventListener('click', () => {
+            const num = '+96170862314';
+            navigator.clipboard.writeText(num).then(() => {
+                copied.classList.add('show');
+                setTimeout(() => copied.classList.remove('show'), 1800);
+            }).catch(() => {
+                copied.textContent = 'انسخ يدويًا: ' + num;
+                copied.classList.add('show');
+            });
+        });
+    </script>
+</body>
+</html>

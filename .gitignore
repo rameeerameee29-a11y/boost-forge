@@ -1,0 +1,30 @@
+# Zip exports
+*.zip
+
+# Sensitive files
+.secret_key
+database.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.venv
+venv/
+env/
+
+# Replit
+.replit
+replit.nix
+.pythonlibs/
+.cache/
+.local/
+.upm/

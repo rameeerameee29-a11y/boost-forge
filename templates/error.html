@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خطأ {{ code }} | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#070d1c; --panel:#0f1729; --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6); --accent:#3b82f6; --accent-2:#00d4ff; --danger:#ef4444; }
+        [data-theme="light"] { --bg:#f4f6fb; --panel:#fff; --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6); }
+        body { background:var(--bg); color:var(--text); font-family:'Cairo',sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; padding:20px; }
+        .card { background:var(--panel); padding:36px 28px; border-radius:22px; max-width:420px; text-align:center; border:1px solid var(--border); }
+        .code { font-size:54px; font-weight:900; color:var(--danger); margin-bottom:8px; }
+        .msg { font-size:17px; font-weight:700; margin-bottom:18px; }
+        a { display:inline-block; padding:12px 22px; background:linear-gradient(135deg,#3b82f6,#2563eb); color:#fff; text-decoration:none; border-radius:12px; font-weight:800; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="code">{{ code }}</div>
+        <div class="msg">{{ msg }}</div>
+        <a href="/">العودة للرئيسية</a>
+    </div>
+    <script>
+        const t = localStorage.getItem('bf_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+    </script>
+</body>
+</html>

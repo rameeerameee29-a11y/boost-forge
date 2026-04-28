@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلباتي | BoostForge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        (function(){
+            var t = localStorage.getItem('bf_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <style>
+        :root {
+            --bg:#070d1c; --panel:#0f1729; --panel-2:#111c33;
+            --border:rgba(255,255,255,0.06); --text:#fff; --muted:rgba(255,255,255,0.6);
+            --accent:#3b82f6; --accent-2:#00d4ff;
+            --pending:#f59e0b; --success:#22c55e; --cancelled:#ef4444;
+        }
+        [data-theme="light"] {
+            --bg:#f4f6fb; --panel:#fff; --panel-2:#f8fafc;
+            --border:rgba(0,0,0,0.08); --text:#0b1121; --muted:rgba(11,17,33,0.6);
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'Cairo', sans-serif; min-height: 100vh; padding: 24px;
+        }
+        a { color: inherit; text-decoration: none; }
+        .wrap { max-width: 900px; margin: 0 auto; }
+        .top { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .top img { height: 42px; width: 42px; border-radius: 10px; }
+        .top .name { font-weight: 900; font-size: 20px; }
+        .top .back { margin-inline-start: auto; font-size: 13px; color: var(--accent-2); font-weight: 700; }
+
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 22px; padding: 26px; margin-bottom: 18px; }
+        h1 { margin: 0 0 6px; font-size: 22px; font-weight: 900; }
+        .desc { margin: 0 0 18px; font-size: 13.5px; color: var(--muted); }
+
+        .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+        .tab {
+            padding: 10px 18px; border-radius: 12px; background: var(--panel-2);
+            border: 1px solid var(--border); cursor: pointer;
+            font-family: inherit; font-weight: 800; font-size: 13.5px;
+            color: var(--text); transition: 0.2s;
+        }
+        .tab.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border-color: transparent; }
+        .tab .count { display: inline-block; margin-inline-start: 6px; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,0.15); font-size: 11px; }
+
+        .list { display: flex; flex-direction: column; gap: 12px; }
+        .order {
+            background: var(--panel-2); border: 1px solid var(--border);
+            border-radius: 16px; padding: 16px; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .order .icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(0,212,255,0.1));
+            font-size: 22px; flex-shrink: 0;
+        }
+        .order .body { flex: 1; min-width: 0; }
+        .order .row1 { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .order .title { font-weight: 900; font-size: 15px; }
+        .order .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        .order .details { font-size: 13px; color: var(--muted); margin-top: 8px; white-space: pre-line; line-height: 1.7; }
+        .order .amount { font-weight: 900; color: var(--accent-2); font-size: 15px; }
+        .admin-note {
+            margin-top: 10px; padding: 12px 14px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(0,212,255,0.06));
+            border: 1px solid rgba(59,130,246,0.3); border-radius: 12px;
+            font-size: 13px; line-height: 1.7; white-space: pre-line;
+        }
+        .admin-note .nlabel { font-size: 11.5px; font-weight: 800; color: var(--accent-2); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+
+        .badge {
+            padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 800;
+        }
+        .badge.pending { background: rgba(245,158,11,0.15); color: var(--pending); }
+        .badge.success { background: rgba(34,197,94,0.15); color: var(--success); }
+        .badge.cancelled { background: rgba(239,68,68,0.15); color: var(--cancelled); }
+
+        .empty {
+            text-align: center; padding: 50px 20px; color: var(--muted);
+        }
+        .empty .ico { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+        .empty p { margin: 6px 0; font-size: 14px; }
+
+        .panel-hidden { display: none; }
+
+        .admin-link {
+            display: inline-block; margin-top: 10px; padding: 8px 14px;
+            background: var(--accent); color: #fff; border-radius: 10px;
+            font-weight: 800; font-size: 12.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <img src="/static/logo.png" alt="BoostForge">
+            <div class="name">BoostForge</div>
+            <a class="back" href="/">← الرئيسية</a>
+        </div>
+
+        <div class="card">
+            <h1>📦 طلباتي</h1>
+            <p class="desc">تابع حالة طلباتك: قيد الانتظار، الناجحة، والملغية.</p>
+            {% if is_admin %}
+            <a class="admin-link" href="/admin/orders">⚙ إدارة الطلبات</a>
+            <a class="admin-link" href="/admin/users" style="background: #22c55e;">👥 إدارة الزبائن</a>
+            {% endif %}
+
+            <div class="tabs">
+                <button class="tab active" data-target="pending">قيد الانتظار <span class="count">{{ pending|length }}</span></button>
+                <button class="tab" data-target="success">ناجحة <span class="count">{{ success|length }}</span></button>
+                <button class="tab" data-target="cancelled">ملغية <span class="count">{{ cancelled|length }}</span></button>
+            </div>
+
+            {% for key, items, label, badge in [
+                ('pending', pending, 'قيد الانتظار', 'pending'),
+                ('success', success, 'ناجحة', 'success'),
+                ('cancelled', cancelled, 'ملغية', 'cancelled')
+            ] %}
+            <div class="panel {% if key != 'pending' %}panel-hidden{% endif %}" data-panel="{{ key }}">
+                {% if items %}
+                <div class="list">
+                    {% for o in items %}
+                    <div class="order">
+                        <div class="icon">
+                            {% if o[1] == 'game' %}🎮
+                            {% elif o[1] == 'app' %}📱
+                            {% elif o[1] == 'payment' %}💳
+                            {% else %}🛒{% endif %}
+                        </div>
+                        <div class="body">
+                            <div class="row1">
+                                <div>
+                                    <div class="title">{{ o[2] }}</div>
+                                    <div class="meta">طلب #{{ o[0] }} • {{ o[6] }}</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    {% if o[4] %}<span class="amount">${{ '%.2f'|format(o[4]) }}</span>{% endif %}
+                                    <span class="badge {{ badge }}">{{ label }}</span>
+                                </div>
+                            </div>
+                            {% if o[3] %}<div class="details">{{ o[3] }}</div>{% endif %}
+                            {% if o[7] %}
+                            <div class="admin-note">
+                                <div class="nlabel">📩 ملاحظة من الإدارة</div>
+                                <div>{{ o[7] }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty">
+                    <div class="ico">📭</div>
+                    <p>لا توجد طلبات {{ label }}.</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.panel');
+        tabs.forEach(t => t.addEventListener('click', () => {
+            tabs.forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            const target = t.dataset.target;
+            panels.forEach(p => {
+                if (p.dataset.panel === target) p.classList.remove('panel-hidden');
+                else p.classList.add('panel-hidden');
+            });
+        }));
+    </script>
+</body>
+</html>
